@@ -5,15 +5,13 @@ function PlayGround(selector_ch1)
 	var beam = new Beam();
 	
 	//attaches event listener to the document listening for key strokes
-	this.initialize = function()
-	{
+	this.initialize = function(){
 		$(document).keydown(function(e) {
 			ch1.updateAction(e.keyCode);
 		});
 	}
 
-	this.mainLoop = function()
-	{
+	this.mainLoop = function(){
 		ch1.drawCharacter();
 		if(ch1.action == 68 && ch1.counter==3){
 			beam.startBeam(ch1.ch_x);
@@ -23,8 +21,7 @@ function PlayGround(selector_ch1)
 
 }	//end of PlayGround class
 
-function Character(selector)
-{
+function Character(selector){
 	var selector = selector; //store the html id of the character
 
 	var constants = {
@@ -45,22 +42,18 @@ function Character(selector)
 	this.ch_y=0;					//y_coordinate of the character
 	//ch_x, ch_y and action could really all be private variables and I could have just done var instead of this. but to make debuggin easier, I am making them an instance variable so that it would display when you log the chracter object
 
-	this.drawSprite = function(y, x)
-	{
+	this.drawSprite = function(y, x){
 		$('#'+selector).css('background', "url('images/ken.png') "+x*(-70)+"px "+(-80*y)+"px").css('left', this.ch_x+"px").css('top', this.ch_y+140+"px");
 	}
 
 	//updates the action
-	this.updateAction = function(action)
-	{
+	this.updateAction = function(action){
 		this.counter=0;
 		this.action = action;
 	}
 	//updates the character's coordinates and changes the sprite's counter to simulate the character moving
-	this.updateCoordinate = function()
-	{
-		if(this.counter>=constants[this.action].x.length)
-		{
+	this.updateCoordinate = function(){
+		if(!constants[this.action] || this.counter>=constants[this.action].x.length){
 			this.counter=0;
 			//if action is anything other than 'STANDING' change the action back to 'STANDING'
 			this.action = 'STANDING';
@@ -78,8 +71,7 @@ function Character(selector)
 	}
 
 	//draws the character on the screen
-	this.drawCharacter = function()
-	{
+	this.drawCharacter = function(){
 		// console.log("drawing character");
 		this.updateCoordinate();
 		this.drawSprite(constants[this.action].y, constants[this.action].x[this.counter++]);
@@ -99,7 +91,7 @@ function Beam(){
 			this.ch_x+=20;
 			this.phase++;
 		}else if(this.phase == 2){
-			$('#beam').css('background', "url('images/ken.png') "+0*(-70)+"px "+(-80*5)+"px").css('left', this.ch_x+"px");
+			$('#beam').css('background', "url('images/ken.png') "+"0px "+(-80*5)+"px").css('left', this.ch_x+"px");
 			this.ch_x+=20;
 		}
 		if(this.ch_x >= 600){
